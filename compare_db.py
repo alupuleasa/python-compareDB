@@ -56,16 +56,16 @@ class CompareDB:
 
         diffsDB = list()
         for table in DB1Struct.tables:
-            diffDB = dict()
-            diffDB[table["tableName"]] = dict()
+            diffDB = dict()        
             ok = 0
             for table2 in DB2Struct.tables:
                 if table["tableName"] == table2["tableName"]:
                     ok = 1
                     if table["tableRows"] != table2["tableRows"]:
+                        if not table["tableName"] in diffDB.keys():
+                            diffDB[table["tableName"]] = dict()
                         diffDB[table["tableName"]]["rows"] = f'{DB1}({table["tableRows"]}) - {DB2}({table2["tableRows"]})'
                     
-                    diffDB[table["tableName"]]["columns"] = dict()
                     for column in table["columns"]:
                         innerOk = 0
                         for column2 in table2["columns"]:
@@ -73,6 +73,10 @@ class CompareDB:
                                 innerOk = 1
                                 for colProp in colProps:
                                     if column[colProp] != column2[colProp]:
+                                        if not table["tableName"] in diffDB.keys():
+                                            diffDB[table["tableName"]] = dict()
+                                        if not "columns" in diffDB[table["tableName"]].keys():
+                                            diffDB[table["tableName"]]["columns"] = dict()
                                         if not column["Field"] in diffDB[table["tableName"]]["columns"].keys():
                                             diffDB[table["tableName"]]["columns"][column["Field"]] = dict()
                                         diffDB[table["tableName"]]["columns"][column["Field"]][colProp] = f'{DB2}({colProp} => {column[colProp]}) => {DB1}({colProp} => {column2[colProp]})'
