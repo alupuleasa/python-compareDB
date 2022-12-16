@@ -84,7 +84,8 @@ class CompareDB:
                             diffDB[table["tableName"]]["columns"][column["Field"]] = f'Column missing on {DB2}'
             if ok == 0:
                 diffDB[table["tableName"]] = f'{table["tableType"]} missing on {DB2}'
-            diffsDB.append(diffDB)
+            if diffDB:
+                diffsDB.append(diffDB)
         return diffsDB
 
     def getTableRows(self, DB, table):
