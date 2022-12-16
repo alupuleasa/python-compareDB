@@ -79,7 +79,8 @@ class CompareDB:
                                             diffDB[table["tableName"]]["columns"] = dict()
                                         if not column["Field"] in diffDB[table["tableName"]]["columns"].keys():
                                             diffDB[table["tableName"]]["columns"][column["Field"]] = dict()
-                                        diffDB[table["tableName"]]["columns"][column["Field"]][colProp] = f'{DB2}({colProp} => {column[colProp]}) => {DB1}({colProp} => {column2[colProp]})'
+                                        msg = f'{DB2}({colProp} => {column[colProp]}) => {DB1}({colProp} => {column2[colProp]})'
+                                        diffDB[table["tableName"]]["columns"][column["Field"]][colProp] = msg
                         if innerOk == 0:
                             diffDB[table["tableName"]]["columns"][column["Field"]] = f'Column missing on {DB2}'
             if ok == 0:
