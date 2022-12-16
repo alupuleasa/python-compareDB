@@ -64,7 +64,7 @@ class CompareDB:
                     if table["tableRows"] != table2["tableRows"]:
                         if not table["tableName"] in diffDB.keys():
                             diffDB[table["tableName"]] = dict()
-                        diffDB[table["tableName"]]["rows"] = f'{DB1}({table["tableRows"]}) - {DB2}({table2["tableRows"]})'
+                        diffDB[table["tableName"]]["rows"] = f'{DB1}(\'{table["tableRows"]}\') - {DB2}(\'{table2["tableRows"]}\')'
                     
                     for column in table["columns"]:
                         innerOk = 0
