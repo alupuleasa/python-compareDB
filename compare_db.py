@@ -64,17 +64,19 @@ class CompareDB:
                     ok = 1
                     if table["tableRows"] != table2["tableRows"]:
                         diffDB[table["tableName"]]["rows"] = f'{DB1}({table["tableRows"]}) - {DB2}({table2["tableRows"]})'
+                    
+                    diffDB[table["tableName"]]["columns"] = dict()
                     for column in table["columns"]:
                         for column2 in table2["columns"]:
                             innerOk = 0
                             if column["Field"] == column2["Field"]:
                                 innerOk = 1
-                                diffDB[table["tableName"]][column["Field"]] = dict()
+                                diffDB[table["tableName"]]["columns"][column["Field"]] = dict()
                                 for colProp in colProps:
                                     if column[colProp] != column2[colProp]:
-                                        diffDB[table["tableName"]][column["Field"]][colProp] = f'{DB2}({colProp} => {column[colProp]}) => {DB1}({colProp} => {column2[colProp]})'
+                                        diffDB[table["tableName"]]["columns"][column["Field"]][colProp] = f'{DB2}({colProp} => {column[colProp]}) => {DB1}({colProp} => {column2[colProp]})'
                             if innerOk == 0:
-                                diffDB[table["tableName"]][column["Field"]] = f'Column missing on {DB2}'
+                                diffDB[table["tableName"]]["columns"][column["Field"]] = f'Column missing on {DB2}'
             if ok == 0:
                 diffDB[table["tableName"]] = f'{table["tableType"]} missing on {DB2}'
             diffsDB.append(diffDB)
